@@ -16,7 +16,6 @@ class NewsletterController extends Controller
 
         $email = $request->email;
         
-        // Save to database
         \App\Models\Newsletter::create(['email' => $email]);
 
         $subject = "Votre Code de Réduction TECHGAME";
@@ -30,8 +29,8 @@ class NewsletterController extends Controller
                                 <h1 style='color: #39ff14;'>Bienvenue dans l'Élite TECHGAME !</h1>
                                 <p>Merci d'avoir rejoint notre communauté de passionnés.</p>
                                 <div style='background: rgba(57, 255, 20, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;'>
-                                    <p style='font-size: 1.2rem;'>Votre code de réduction de 30% est :</p>
-                                    <h2 style='color: #39ff14; letter-spacing: 5px;'>TECHGAME30</h2>
+                                    <p style='font-size: 1.2rem;'>Votre code de réduction de 20% est :</p>
+                                    <h2 style='color: #39ff14; letter-spacing: 5px;'>TECH2020</h2>
                                 </div>
                                 <p>Vous serez désormais informé en avant-première de nos nouveaux arrivages et des alertes de stock.</p>
                                 <p>L'équipe TECHGAME</p>
@@ -40,7 +39,6 @@ class NewsletterController extends Controller
             });
             return response()->json(['message' => 'Inscription réussie et email envoyé.'], 200);
         } catch (\Exception $e) {
-            // Even if mail fails, we have the subscription saved
             return response()->json(['message' => 'Inscription réussie.', 'email_status' => 'Email non envoyé'], 201);
         }
     }

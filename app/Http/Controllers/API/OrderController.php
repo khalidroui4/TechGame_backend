@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\AuditLog;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -33,6 +34,10 @@ class OrderController extends Controller
                     throw new \Exception("Insufficient stock for product: " . $product->name);
                 }
                 $totalAmount += $product->price * $itemData['quantity'];
+            }
+            
+            if ($totalAmount > 5999) {
+                $totalAmount += 100;
             }
 
             $order = Order::create([
@@ -86,7 +91,10 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+        $oldStatus = $order->status;
         $order->update(['status' => $request->status]);
+
+        AuditLog::log('updated_order_status', Order::class, $order->id, ['old_status' => $oldStatus, 'new_status' => $request->status]);
 
         return response()->json($order);
     }

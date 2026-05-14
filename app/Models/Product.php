@@ -11,6 +11,10 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_trending' => 'boolean',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);

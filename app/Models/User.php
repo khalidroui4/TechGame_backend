@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class, 'favorites')->withTimestamps();
     }
+
+    public function supportMessages()
+    {
+        return $this->hasMany(SupportMessage::class);
+    }
 }

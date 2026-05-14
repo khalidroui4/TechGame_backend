@@ -15,9 +15,9 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|regex:/[0-9]/|confirmed',
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
         ], [
-            'password.regex' => 'Le mot de passe doit contenir au moins un chiffre.',
+            'password.uncompromised' => 'Ce mot de passe a été compromis dans une fuite de données, veuillez en choisir un autre.',
         ]);
 
         $user = User::create([
